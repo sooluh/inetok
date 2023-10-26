@@ -9,17 +9,6 @@ const soundFile = path.resolve(__dirname, "alert.wav");
 
 let audio: ChildProcess | null = null;
 
-function down() {
-  console.log("Internet is down. Playing sound ...");
-
-  // @ts-ignore
-  audio = playerInstance.play(soundFile, { cvlc: ["-L"] }, (error: any) => {
-    if (error) {
-      console.error("Error playing sound:", error);
-    }
-  });
-}
-
 async function monitor() {
   const online = await ping.promise.probe("1.1.1.1");
   audio && audio.kill();
@@ -27,7 +16,14 @@ async function monitor() {
   if (online.alive) {
     console.log("Internet is online.");
   } else {
-    down();
+    console.log("Internet is down. Playing sound ...");
+
+    // @ts-ignore
+    audio = playerInstance.play(soundFile, { cvlc: ["-L"] }, (error: any) => {
+      if (error) {
+        console.error("Error playing sound:", error);
+      }
+    });
   }
 
   setTimeout(monitor, 1_000);

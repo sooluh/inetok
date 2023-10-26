@@ -3,7 +3,7 @@ Description=Internet OK
 
 [Service]
 Type=simple
-ExecStart=~/.inetok/inetok
+ExecStart=/opt/inetok/inetok
 Restart=always
 
 [Install]
