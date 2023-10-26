@@ -1,0 +1,10 @@
+[Unit]
+Description=Internet OK
+
+[Service]
+Type=simple
+ExecStart=~/.inetok/inetok
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

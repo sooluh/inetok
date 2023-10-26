@@ -1,0 +1,15 @@
+{
+  "name": "inetok",
+  "module": "app.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/play-sound": "^1.1.1",
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "play-sound": "^1.1.6"
+  }
+}
