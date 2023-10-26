@@ -3,6 +3,7 @@
   "module": "app.ts",
   "type": "module",
   "devDependencies": {
+    "@types/ping": "^0.4.3",
     "@types/play-sound": "^1.1.1",
     "bun-types": "latest"
   },
@@ -10,6 +11,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "ping": "^0.4.4",
     "play-sound": "^1.1.6"
   }
 }

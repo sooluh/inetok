@@ -1,6 +1,6 @@
+import * as ping from "ping";
 import * as path from "path";
 import player from "play-sound";
-import * as dns from "dns/promises";
 import type { ChildProcess } from "child_process";
 
 // @ts-ignore
@@ -20,30 +20,17 @@ function down() {
   });
 }
 
-async function isOnline() {
-  try {
-    await Promise.race([
-      dns.lookup("google.com"),
-      new Promise((_, reject) => setTimeout(() => reject(false), 5_200)),
-    ]);
-
-    return true;
-  } catch (error) {
-    return false;
-  }
-}
-
 async function monitor() {
-  const isOnlineStatus = await isOnline();
+  const online = await ping.promise.probe("1.1.1.1");
   audio && audio.kill();
 
-  if (isOnlineStatus) {
+  if (online.alive) {
     console.log("Internet is online.");
   } else {
     down();
   }
 
-  setTimeout(monitor, 1_300);
+  setTimeout(monitor, 1_000);
 }
 
 monitor();
