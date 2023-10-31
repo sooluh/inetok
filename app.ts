@@ -7,23 +7,28 @@ import type { ChildProcess } from "child_process";
 const playerInstance = player({ player: "cvlc" });
 const soundFile = path.resolve(__dirname, "alert.wav");
 
+let counter = 0;
 let audio: ChildProcess | null = null;
 
 async function monitor() {
-  const online = await ping.promise.probe("1.1.1.1");
+  const inet = await ping.promise.probe("1.1.1.1");
   audio && audio.kill();
 
-  if (online.alive) {
-    console.log("Internet is online.");
+  if (inet.alive) {
+    counter = 0;
+    console.log("Internet is online");
   } else {
-    console.log("Internet is down. Playing sound ...");
+    counter += 1;
+    console.log(`Internet is down (${counter}x)`);
 
-    // @ts-ignore
-    audio = playerInstance.play(soundFile, { cvlc: ["-L"] }, (error: any) => {
-      if (error) {
-        console.error("Error playing sound:", error);
-      }
-    });
+    if (counter > 5) {
+      // @ts-ignore
+      audio = playerInstance.play(soundFile, { cvlc: ["-L"] }, (error: any) => {
+        if (error) {
+          console.error("Error playing sound:", error);
+        }
+      });
+    }
   }
 
   setTimeout(monitor, 1_000);
